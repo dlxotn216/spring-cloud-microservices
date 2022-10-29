@@ -1,0 +1,33 @@
+server:
+  port: 8072
+
+eureka:
+  instance:
+    preferIpAddress: true # 컨테이너 기반 환경에서 DNS 엔트리가 임의로 생성한 호스트 이름을 할당하므로 IP기반이 더 적합
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    service-url:
+      defaultZone: http://eurekaserver:8070/eureka/
+
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:  # 디스커버리에 등록된 대로 경로를 구성하도록 활성화 (organization-service/api/v1/**)
+          enabled: true
+          lower-case-service-id: true
+      routes:     # 직접 매핑 (organization/api/v1/**)
+        - id: organization-service
+          uri: lb://organization-service
+          predicates:
+            - Path=/organization/**
+          filters:
+            - RewritePath=/organization/(?<path>.*), /$\{path} # /organization/** -> /**
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

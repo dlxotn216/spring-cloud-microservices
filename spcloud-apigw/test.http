@@ -1,0 +1,18 @@
+###
+// @no-log
+GET http://localhost:8072/actuator/gateway/routes
+
+###
+// @no-log
+GET http://localhost:8072/licensing-service/api/v1/organizations/1/licenses/1
+Content-Type: application/json
+
+###
+// @no-log
+GET http://localhost:8072/organization-service/api/v1/organizations/1
+Content-Type: application/json
+
+###
+// @no-log
+GET http://localhost:8072/organization/api/v1/organizations/1
+Content-Type: application/json
