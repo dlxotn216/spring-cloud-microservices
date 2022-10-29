@@ -32,25 +32,6 @@ ENTRYPOINT ["java", "-cp", "app:app/lib/*", "me.taesu.spcloud.spcloudlicense.Spc
 ```
 
 ## 스프링 부트로 도커 이미지 생성하기
-mvn spring-boot:build-image
+mvn clean spring-boot:build-image
 docker run -it -p:8080:8080 docker.io/library/spcloud-license:0.0.1-SNAPSHOT
 
-## docker compose
-docker-compose up
-```yaml
-version: '3.7'
-services:
-  licensingservice:
-    image: spcloud-license:0.0.1-SNAPSHOT
-    ports:
-      - "8080:8080"
-    environment:
-      - "SPRING_PROFILES_ACTIVE=dev"
-    networks:
-      backend:
-        aliases:
-          - "licenseservice"
-networks:
-  backend:
-    driver: bridge
-```

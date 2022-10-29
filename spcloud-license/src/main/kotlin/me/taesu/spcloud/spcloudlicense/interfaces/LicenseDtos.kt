@@ -18,6 +18,7 @@ class LicenseRetrieveResponse(
     val licenseKey: Long,
     val licenseId: String,
     val organizationKey: Long,
+    val organizationName: String,
     val description: String,
     val productName: String,
     val licenseType: String,

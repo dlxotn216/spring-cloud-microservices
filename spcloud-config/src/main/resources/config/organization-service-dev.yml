@@ -1,0 +1,36 @@
+server:
+  port: 8082
+
+spring:
+  config:
+    import: "classpath:config/organization-service-datasource.yml"
+  datasource:
+    hikari:
+      jdbc-url: jdbc:postgresql://localhost:5432/spcloud?reWriteBatchedInserts=true
+      username: postgres
+      password: password
+      maximum-pool-size: 10
+  sql:
+    init:
+      mode: never
+debug: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+config:
+  async:
+    asyncPoolMinCapacity: 10
+    asyncPoolMaxCapacity: 50
+    asyncPoolQueueCapacity: 50
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    com.zaxxer.hikari: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.springframework: INFO
+    org.springframework.transaction: DEBUG
+    org.springframework.orm.jpa: DEBUG

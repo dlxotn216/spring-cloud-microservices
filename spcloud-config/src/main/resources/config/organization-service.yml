@@ -1,0 +1,8 @@
+eureka:
+  instance:
+    preferIpAddress: true # 컨테이너 기반 환경에서 DNS 엔트리가 임의로 생성한 호스트 이름을 할당하므로 IP기반이 더 적합
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    service-url:
+      defaultZone: http://eurekaserver:8070/eureka/

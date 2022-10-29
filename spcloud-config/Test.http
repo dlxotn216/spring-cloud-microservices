@@ -1,0 +1,15 @@
+###
+GET http://localhost:8071/licensing-service/dev
+X-Config-Token:myroot
+
+###
+GET http://localhost:8071/eureka-server/default
+X-Config-Token:myroot
+
+###
+GET http://127.0.0.1:8200/v1/licensing-service/dev
+X-Config-Token:myroot
+
+###
+GET http://127.0.0.1:8070/eureka/apps
+Accept: application/json
