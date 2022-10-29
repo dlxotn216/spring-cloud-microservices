@@ -1,6 +1,5 @@
 package me.taesu.spcloud.spcloudlicense.application
 
-import me.taesu.spcloud.spcloudlicense.infra.OrganizationFeignClient
 import me.taesu.spcloud.spcloudlicense.infra.OrganizationRetrieveResponse
 import me.taesu.spcloud.spcloudlicense.interfaces.LicenseCreateRequest
 import me.taesu.spcloud.spcloudlicense.interfaces.LicenseRetrieveResponse
@@ -19,16 +18,16 @@ import org.springframework.stereotype.Service
 @Service
 class LicenseService(
     private val repository: LicenseRepository,
-    private val organizationFeignClient: OrganizationFeignClient
+    private val organizationService: OrganizationService
 ) {
     fun create(organizationKey: Long, request: LicenseCreateRequest): LicenseRetrieveResponse {
         val license = repository.save(request.toEntity(organizationKey))
-        return license.toResponse(organizationFeignClient.retrieve(organizationKey).result)
+        return license.toResponse(organizationService.retrieve(organizationKey))
     }
 
     fun retrieve(organizationKey: Long, licenseKey: Long): LicenseRetrieveResponse {
         val license = repository.findOrThrow(organizationKey, licenseKey)
-        return license.toResponse(organizationFeignClient.retrieve(organizationKey).result)
+        return license.toResponse(organizationService.retrieve(organizationKey))
     }
 
     fun delete(organizationKey: Long, licenseKey: Long) {
