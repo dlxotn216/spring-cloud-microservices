@@ -13,48 +13,5 @@ spring:
         multiplier: 2
       request-connect-timeout: 2000
       request-read-timeout: 10000
-resilience4j:
-  circuitbreaker:
-    instances:
-      licenseService:
-        register-health-indicator: true
-        ring-buffer-size-in-closed-state: 5 # 링버퍼의 닫힌 상태 크기 설정
-        ring-buffer-size-in-half-open-state: 3 # 링버퍼의 반열린 상태 크기 설정
-        wait-duration-in-open-state: 10S # 열린 상태 대기 시간
-        failure-rate-threshold: 50  # 실패율 임계치 백분율
-        record-exceptions: # 실패로 기록 될 예외
-          - org.springframework.web.client.HttpServerErrorException
-          - java.io.IOException
-          - java.util.concurrent.TimeoutException
-          - org.springframework.web.client.ResourceAccessException
-
-
-  bulkhead: # 한번에 x개의 동시 호출 허용
-    instances:
-      bulkheadLicenseService:
-        max-wait-duration: 10ms # 스레드 차단할 최대 시간
-        max-concurrent-calls: 20 # 최대 동시 호출 수
-
-  thread-pool-bulkhead:
-    instances:
-      bulkheadLicenseService:
-        max-thread-pool-size: 10 # 최대 스레드 개수
-        core-thread-pool-size: 5 # 코어 스레드 개수
-        queue-capacity: 10 # 큐 크기
-        keep-alive-duration: 20ms # 유휴 스레드 종료 전 새 태스크 기다리는 최대 시간
-  retry:
-    instances:
-      retryLicenseService:
-        max-attempts: 5 # 최대 재시도 횟수
-        wait-duration: 1000ms # 재시도 대기 시간
-        retry-exceptions: # 재시도 할 예외
-          - java.util.concurrent.TimeoutException
-
-  ratelimiter: # y초마다 x개의 호출 허용
-    instances:
-      licenseService:
-        timeout-duration: 1000ms  # 스레드가 호출 허용 기다리는 시간
-        limit-for-period: 5 # 갱신 제한 기간 동안 가용한 허용 수
-        limit-refresh-period: 5000ns  # 갱신 제한 기간
 
 
