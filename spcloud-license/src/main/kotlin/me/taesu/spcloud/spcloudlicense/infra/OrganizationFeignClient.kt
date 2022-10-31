@@ -20,9 +20,3 @@ interface OrganizationFeignClient {
     )
     fun retrieve(@PathVariable organizationKey: Long): SuccessResponse<OrganizationRetrieveResponse>
 }
-
-class OrganizationRetrieveResponse(
-    val organizationKey: Long,
-    val name: String,
-    val description: String,
-)

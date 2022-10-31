@@ -6,3 +6,13 @@ eureka:
     fetchRegistry: true
     service-url:
       defaultZone: http://eurekaserver:8070/eureka/
+
+keycloak:
+  realm: spcloud-realm
+  auth-server-url: http://localhost:8080/auth # issuer url이 realm url과 같아야 함
+  ssl-required: external
+  resource: spcloud
+  credentials:
+    secret: 5e785f8e-ad9f-4c8d-bcae-948a87324c17
+  use-resource-role-mappings: true
+  bearer-only: true

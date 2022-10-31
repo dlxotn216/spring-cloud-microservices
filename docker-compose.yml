@@ -1,30 +1,43 @@
 version: '3.7'
 services:
-  configserver:
-    image: spcloud-config:0.0.1-SNAPSHOT
-    ports:
-      - "8071:8071"
+  keycloak:
+    image: alemairebe/keycloak:14.0.0
+    restart: always
     environment:
-      SPRING_PROFILES_ACTIVE: "native"
-      ENCRYPT_KEY: "fje83Ki8403Iod87dne7Yjsl3THueh48jfuO9j4U2hf64Lo"
+      KEYCLOAK_VERSION: 6.0.1
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+    ports:
+      - "8080:8080"
     networks:
       backend:
         aliases:
-          - "configserver"
-  licensingservice:
-    image: spcloud-license:0.0.1-SNAPSHOT
-    ports:
-      - "8081:8081"
-    environment:
-      SPRING_PROFILES_ACTIVE: "dev"
-      SPRING_CLOUD_CONFIG_URI: "http://configserver:8071"
-    depends_on:
-      configserver:
-        condition: service_started
-    networks:
-      backend:
-        aliases:
-          - "licenseservice"
+          - "keycloak"
+#  configserver:
+#    image: spcloud-config:0.0.1-SNAPSHOT
+#    ports:
+#      - "8071:8071"
+#    environment:
+#      SPRING_PROFILES_ACTIVE: "native"
+#      ENCRYPT_KEY: "fje83Ki8403Iod87dne7Yjsl3THueh48jfuO9j4U2hf64Lo"
+#    networks:
+#      backend:
+#        aliases:
+#          - "configserver"
+#  licensingservice:
+#    image: spcloud-license:0.0.1-SNAPSHOT
+#    ports:
+#      - "8081:8081"
+#    environment:
+#      SPRING_PROFILES_ACTIVE: "dev"
+#      SPRING_CLOUD_CONFIG_URI: "http://configserver:8071"
+#    depends_on:
+#      configserver:
+#        condition: service_started
+#    networks:
+#      backend:
+#        aliases:
+#          - "licenseservice"
 networks:
   backend:
     driver: bridge

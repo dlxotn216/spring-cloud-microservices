@@ -4,6 +4,7 @@ import io.github.resilience4j.bulkhead.annotation.Bulkhead
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker
 import io.github.resilience4j.retry.annotation.Retry
 import me.taesu.spcloud.spcloudlicense.infra.OrganizationFeignClient
+import me.taesu.spcloud.spcloudlicense.infra.OrganizationKeyCloakClient
 import me.taesu.spcloud.spcloudlicense.infra.OrganizationRetrieveResponse
 import org.springframework.stereotype.Service
 import java.util.*
@@ -17,13 +18,16 @@ import java.util.concurrent.TimeoutException
  * @since spcloud-license
  */
 @Service
-class OrganizationService(private val organizationFeignClient: OrganizationFeignClient) {
+class OrganizationService(
+    private val organizationFeignClient: OrganizationFeignClient,
+    private val organizationKeyCloakClient: OrganizationKeyCloakClient,
+) {
     @CircuitBreaker(name = "licenseService", fallbackMethod = "retrieveFailBack")
     @Bulkhead(name = "bulkheadLicenseService", fallbackMethod = "retrieveFailBack")
     @Retry(name = "retryLicenseService", fallbackMethod = "retrieveFailBack")
     fun retrieve(organizationKey: Long): OrganizationRetrieveResponse {
         randomSleep()
-        return organizationFeignClient.retrieve(organizationKey).result
+        return organizationKeyCloakClient.retrieve(organizationKey).result
     }
 
     fun retrieveFailBack(organizationKey: Long, t: Throwable) =
